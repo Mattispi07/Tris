@@ -1,0 +1,323 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <fstream>
+#include<cstdlib>
+#include <ctime>
+#include <windows.h>
+#include <vector>
+#include <conio.h>
+//colori
+#define VERDE "\x1B[38;5;48m"
+#define ROSA "\x1B[38;5;129m"
+#define BLU "\x1B[38;5;27m"
+#define GRIGIO "\x1B[38;5;146m"
+#define ROSSO "\x1B[38;5;196m"
+#define AZZURRO "\x1B[38;5;123m"
+#define GIALLO_G "\x1B[38;5;220m"
+#define ROSSO_G "\x1B[38;5;160m"
+#define BIANCO "\x1B[38;5;255m"
+#define NERO "\x1B[38;5;0m"
+#define RESET "\x1B[0m"
+using namespace std;
+class matrice1{
+public:
+    char matrice[3][3];
+    bool turno=true;
+    int vincite=0;
+    int vAvversario=0;
+    void intro();
+    void stampa();
+    void inizializza();
+    void turno1();
+    void turno2();
+    int controllo();
+    void vittoria();
+    void sconfitta();
+};
+void matrice1::intro(){
+cout<<endl<<endl<<endl<<endl<<endl<<endl;
+cout<<"                                             _______  ______    ___   _______ "<<endl;
+Sleep(200);
+cout<<"                                             |       ||    _ |  |   | |       |"<<endl;
+Sleep(200);
+cout<<"                                             |_     _||   | ||  |   | |  _____|"<<endl;
+Sleep(200);
+cout<<"                                               |   |  |   |_||_ |   | | |_____ "<<endl;
+Sleep(200);
+cout<<"                                               |   |  |    __  ||   | |_____  |"<<endl;
+Sleep(200);
+cout<<"                                               |   |  |   |  | ||   |  _____| |"<<endl;
+Sleep(200);
+cout<<"                                               |___|  |___|  |_||___| |_______|"<<endl;
+Sleep(200);
+system("cls");
+cout<<endl<<endl<<endl<<endl<<endl<<endl;
+printf("%s",ROSSO);
+cout<<"                                             _______  ______    ___   _______ "<<endl;
+Sleep(200);
+printf("%s",ROSA);
+cout<<"                                             |       ||    _ |  |   | |       |"<<endl;
+Sleep(200);
+printf("%s",GIALLO_G);
+cout<<"                                             |_     _||   | ||  |   | |  _____|"<<endl;
+Sleep(200);
+printf("%s",VERDE);
+cout<<"                                               |   |  |   |_||_ |   | | |_____ "<<endl;
+Sleep(200);
+printf("%s",AZZURRO);
+cout<<"                                               |   |  |    __  ||   | |_____  |"<<endl;
+Sleep(200);
+printf("%s",BLU);
+cout<<"                                               |   |  |   |  | ||   |  _____| |"<<endl;
+Sleep(200);
+printf("%s",BIANCO);
+cout<<"                                               |___|  |___|  |_||___| |_______|"<<endl;
+printf("%s",RESET);
+system("cls");
+system("color F0");
+cout<<endl<<endl<<endl<<endl<<endl<<endl;
+printf("%s",ROSSO);
+cout<<"                                             _______  ______    ___   _______ "<<endl;
+Sleep(200);
+printf("%s",ROSA);
+cout<<"                                             |       ||    _ |  |   | |       |"<<endl;
+Sleep(200);
+printf("%s",GIALLO_G);
+cout<<"                                             |_     _||   | ||  |   | |  _____|"<<endl;
+Sleep(200);
+printf("%s",VERDE);
+cout<<"                                               |   |  |   |_||_ |   | | |_____ "<<endl;
+Sleep(200);
+printf("%s",AZZURRO);
+cout<<"                                               |   |  |    __  ||   | |_____  |"<<endl;
+Sleep(200);
+printf("%s",BLU);
+cout<<"                                               |   |  |   |  | ||   |  _____| |"<<endl;
+Sleep(200);
+printf("%s",NERO);
+cout<<"                                               |___|  |___|  |_||___| |_______|"<<endl;
+printf("%s",RESET);
+Sleep(400);
+system("cls");
+cout<<"CARICAMENTO..."<<endl;
+Sleep(200);
+inizializza();
+}
+void matrice1::stampa(){
+    printf("%s",ROSSO);
+    cout<<"                                             _______  ______    ___   _______ "<<endl;
+    printf("%s",ROSA);
+    cout<<"                                             |       ||    _ |  |   | |       |"<<endl;
+    printf("%s",GIALLO_G);
+    cout<<"                                             |_     _||   | ||  |   | |  _____|"<<endl;
+    printf("%s",VERDE);
+    cout<<"                                               |   |  |   |_||_ |   | | |_____ "<<endl;
+    printf("%s",AZZURRO);
+    cout<<"                                               |   |  |    __  ||   | |_____  |"<<endl;
+    printf("%s",BLU);
+    cout<<"                                               |   |  |   |  | ||   |  _____| |"<<endl;
+    printf("%s",BIANCO);
+    cout<<"                                               |___|  |___|  |_||___| |_______|"<<endl<<endl<<endl;
+    printf("%s",VERDE);
+    cout<<"                                                                             Vincite Proprie:"<<vincite<<endl;
+    printf("%s",ROSSO);
+    cout<<"                                                                             Vincite Avversario:"<<vAvversario<<endl;
+    printf("%s",RESET);
+    if(turno==true)
+        cout<<"TOCCA A TE..."<<endl<<endl;
+    else
+        cout<<"TURNO AVVERSARIO"<<endl<<endl;
+    //matrice1 m;
+    cout<<"                                                     -------------"<<endl;
+    for(int i=0; i<3; i++){
+        cout<<"                                                     ";
+        for(int j=0; j<3; j++){
+            cout<<"| ";
+            if(matrice[i][j]=='X')
+                printf("%s",VERDE);
+            else if(matrice[i][j]=='O')
+                printf("%s",ROSSO);
+            else
+                printf("%s",RESET);
+            cout<<matrice[i][j]<<" ";
+            printf("%s",RESET);
+        }
+        cout<<"|"<<endl<<"                                                     -------------"<<endl;
+    }
+    //Sleep(100);
+    int a=controllo();
+    if(a==1)
+        vittoria();
+    else if(a==2)
+        sconfitta();
+    else if(a==0){
+        if(turno==false){
+            Sleep(400);
+            turno2();
+        }
+        else
+            turno1();
+    }
+}
+void matrice1::inizializza(){
+    Sleep(2000);
+    system("cls");
+    int a=0;
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            char b=a+48;
+            matrice[i][j]=b;
+            a++;
+        }
+    }
+    stampa();
+}
+void matrice1::turno1(){
+    turno=true;
+    cout<<endl;
+    cout<<"Dimmi una posizione:";
+    int a=0;
+    cin>>a;
+    cout<<endl;
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            if(a==0){
+                if(matrice[i][j]=='X'||matrice[i][j]=='O'){
+                    cout<<"Posisizione gia' in uso"<<endl;
+                    Sleep(200);
+                    turno1();
+                }
+                else{
+                    matrice[i][j]='X';
+                    system("cls");
+                    turno=false;
+                    stampa();
+                }
+            }
+            else
+                a--;
+        }
+    }
+}
+void matrice1::turno2(){
+    int a=rand()%8;
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            if(a==0){
+                if(matrice[i][j]=='X'||matrice[i][j]=='O'){
+                    turno2();
+                }
+                else{
+                    matrice[i][j]='O';
+                    system("cls");
+                    turno=true;
+                    stampa();
+                }
+            }
+            else
+                a--;
+        }
+    }
+}
+int matrice1::controllo(){
+    //controllo orizzontale
+    for(int i=0; i<3; i++){
+        if(matrice[i][0]==matrice[i][1]&&matrice[i][1]==matrice[i][2]){
+            if(matrice[i][0]=='X')
+                return 1;
+            else
+                return 2;
+        }
+    }
+    for(int i=0; i<3; i++){
+        if(matrice[0][i]==matrice[1][i]&&matrice[1][i]==matrice[2][i]){
+            if(matrice[0][i]=='X')
+                return 1;
+            else
+                return 2;
+        }
+    }
+
+    if(matrice[0][0]==matrice[1][1]&&matrice[1][1]==matrice[2][2]){
+        if(matrice[0][0]=='X')
+                return 1;
+            else
+                return 2;
+    }
+    else if(matrice[0][2]==matrice[1][1]&&matrice[1][1]==matrice[2][0]){
+        if(matrice[0][2]=='X')
+                return 1;
+            else
+                return 2;
+    }
+    int c=0;
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            if(matrice[i][j]=='X'|| matrice[i][j]=='O')
+                c++;
+        }
+    }
+    if(c==9){
+        cout<<endl<<"PAREGGIO"<<endl;
+        Sleep(400);
+        inizializza();
+    }
+    return 0;
+}
+void matrice1::vittoria(){
+    //turno=NULL;
+    vincite++;
+    Sleep(600);
+    printf("%s",GIALLO_G);
+    cout<<"                                                        VITTORIA"<<endl;
+    printf("%s",RESET);
+    Sleep(300);
+    cout<<"                                         Premi Esc per uscire, INVIO per continuare"<<endl;
+    char ch;
+    ch = _getch(); // Legge il carattere premuto
+    if(ch==27){
+        cout << "Hai premuto ESC"<<endl;
+        Sleep(300);
+        cout<<"SALVATAGGIO IN CORSO...."<<endl;
+        Sleep(300);
+        cout<<endl<<"USCITA..."<<endl;
+        abort();
+    }
+    else if(ch==13){
+        cout<<"Creazione nuova partita..."<<endl;
+        Sleep(600);
+        inizializza();
+    }
+}
+void matrice1::sconfitta(){
+    //turno=NULL;
+    vAvversario++;
+    Sleep(600);
+    printf("%s",ROSSO);
+    cout<<"                                                     SCONFITTA"<<endl;
+    printf("%s",RESET);
+    Sleep(300);
+    cout<<"                                         Premi Esc per uscire, INVIO per continuare"<<endl;
+    char ch;
+    ch = _getch(); // Legge il carattere premuto
+    if(ch==27){
+        cout << "Hai premuto ESC"<<endl;
+        Sleep(300);
+        cout<<"SALVATAGGIO IN CORSO...."<<endl;
+        Sleep(300);
+        cout<<endl<<"USCITA..."<<endl;
+        abort();
+    }
+    else if(ch==13){
+        cout<<"Creazione nuova partita..."<<endl;
+        Sleep(600);
+        inizializza();
+    }
+}
+int main()
+{
+    matrice1 m;
+    m.intro();
+    return 0;
+}
