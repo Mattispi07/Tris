@@ -26,6 +26,7 @@ public:
     bool turno=true;
     int vincite=0;
     int vAvversario=0;
+    bool modalita=true; // se true -> semplice   se false ->difficile
     void intro();
     void stampa();
     void inizializza();
@@ -34,6 +35,7 @@ public:
     int controllo();
     void vittoria();
     void sconfitta();
+    void scegliMod();
 };
 void matrice1::intro(){
 cout<<endl<<endl<<endl<<endl<<endl<<endl;
@@ -102,7 +104,48 @@ Sleep(400);
 system("cls");
 cout<<"CARICAMENTO..."<<endl;
 Sleep(200);
-inizializza();
+scegliMod();
+}
+void matrice1::scegliMod(){
+system("cls");
+printf("%s",ROSSO);
+    cout<<"                                             _______  ______    ___   _______ "<<endl;
+    printf("%s",ROSA);
+    cout<<"                                             |       ||    _ |  |   | |       |"<<endl;
+    printf("%s",GIALLO_G);
+    cout<<"                                             |_     _||   | ||  |   | |  _____|"<<endl;
+    printf("%s",VERDE);
+    cout<<"                                               |   |  |   |_||_ |   | | |_____ "<<endl;
+    printf("%s",AZZURRO);
+    cout<<"                                               |   |  |    __  ||   | |_____  |"<<endl;
+    printf("%s",BLU);
+    cout<<"                                               |   |  |   |  | ||   |  _____| |"<<endl;
+    printf("%s",BIANCO);
+    cout<<"                                               |___|  |___|  |_||___| |_______|"<<endl<<endl<<endl;
+    printf("%s",ROSSO);
+    cout<<"MODALITA':"<<endl;
+    printf("%s",RESET);
+    cout<<"Digita 1 per semplice"<<endl<<"Digita 2 per difficile"<<endl;
+    int i=0;
+    cin>>i;
+    if(i<1|| i>2){
+        cout<<"ERRORE!!!"<<endl;
+        Sleep(300);
+        system("cls");
+        scegliMod();
+    }
+    else{
+        if(i==1)
+            modalita=true;
+        else
+            modalita=false;
+    }
+    system("cls");
+    Sleep(400);
+    system("cls");
+    cout<<"CARICAMENTO..."<<endl;
+    Sleep(200);
+    inizializza();
 }
 void matrice1::stampa(){
     printf("%s",ROSSO);
@@ -119,6 +162,7 @@ void matrice1::stampa(){
     cout<<"                                               |   |  |   |  | ||   |  _____| |"<<endl;
     printf("%s",BIANCO);
     cout<<"                                               |___|  |___|  |_||___| |_______|"<<endl<<endl<<endl;
+
     printf("%s",VERDE);
     cout<<"                                                                             Vincite Proprie:"<<vincite<<endl;
     printf("%s",ROSSO);
@@ -201,23 +245,169 @@ void matrice1::turno1(){
     }
 }
 void matrice1::turno2(){
-    int a=rand()%8;
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            if(a==0){
-                if(matrice[i][j]=='X'||matrice[i][j]=='O'){
-                    turno2();
+    if(modalita==true){
+        int a=rand()%9;
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                if(a==0){
+                    if(matrice[i][j]=='X'||matrice[i][j]=='O'){
+                        turno2();
+                    }
+                    else{
+                        matrice[i][j]='O';
+                        system("cls");
+                        turno=true;
+                        stampa();
+                    }
                 }
-                else{
-                    matrice[i][j]='O';
-                    system("cls");
-                    turno=true;
-                    stampa();
+                else
+                    a--;
+            }
+        }
+    }
+    else if(modalita==false){
+        //DIFESA
+        if(matrice[0][0]=='X' && matrice[0][1]=='X' && matrice[0][2]!='O')
+            matrice[0][2]='O';
+        else if(matrice[1][0]=='X' && matrice[1][1]=='X' && matrice[1][2]!='O')
+            matrice[1][2]='O';
+        else if(matrice[2][0]=='X' && matrice[2][1]=='X' && matrice[2][2]!='O')
+            matrice[2][2]='O';
+
+        else if(matrice[0][2]=='X' && matrice[0][1]=='X' && matrice[0][0]!='O')
+            matrice[0][0]='O';
+        else if(matrice[1][2]=='X' && matrice[1][1]=='X' && matrice[1][0]!='O')
+            matrice[1][0]='O';
+        else if(matrice[2][2]=='X' && matrice[2][1]=='X' && matrice[2][0]!='O')
+            matrice[2][0]='O';
+        else if(matrice[0][2]=='X' && matrice[0][0]=='X' && matrice[0][1]!='O')
+            matrice[0][1]='O';
+        else if(matrice[1][2]=='X' && matrice[1][0]=='X' && matrice[1][1]!='O')
+            matrice[1][1]='O';
+        else if(matrice[2][2]=='X' && matrice[2][0]=='X' && matrice[2][1]!='O')
+            matrice[2][1]='O';
+
+        //controllo orizzontale
+        else if(matrice[0][0]=='X' && matrice[1][0]=='X' && matrice[2][0]!='O')
+            matrice[2][0]='O';
+        else if(matrice[0][1]=='X' && matrice[1][1]=='X' && matrice[2][1]!='O')
+            matrice[2][1]='O';
+        else if(matrice[0][2]=='X' && matrice[1][2]=='X' && matrice[2][2]!='O')
+            matrice[2][2]='O';
+
+        else if(matrice[2][0]=='X' && matrice[1][0]=='X' && matrice[0][0]!='O')
+            matrice[0][0]='O';
+        else if(matrice[2][1]=='X' && matrice[1][1]=='X' && matrice[0][1]!='O')
+            matrice[0][1]='O';
+        else if(matrice[2][2]=='X' && matrice[1][2]=='X' && matrice[0][2]!='O')
+            matrice[0][2]='O';
+
+        else if(matrice[2][0]=='X' && matrice[0][0]=='X' && matrice[1][0]!='O')
+            matrice[1][0]='O';
+        else if(matrice[2][1]=='X' && matrice[0][1]=='X' && matrice[1][1]!='O')
+            matrice[1][1]='O';
+        else if(matrice[2][2]=='X' && matrice[0][2]=='X' && matrice[1][2]!='O')
+            matrice[1][2]='O';
+
+        //controllo obliquo
+        else if(matrice[0][0]=='X' && matrice[1][1]=='X' && matrice[2][2]!='O')
+            matrice[2][2]='O';
+        else if(matrice[2][2]=='X' && matrice[1][1]=='X' && matrice[0][0]!='O')
+            matrice[0][0]='O';
+        else if(matrice[2][2]=='X' && matrice[0][0]=='X' && matrice[1][1]!='O')
+            matrice[1][1]='O';
+
+        else if(matrice[2][0]=='X' && matrice[1][1]=='X' && matrice[0][2]!='O')
+            matrice[0][2]='O';
+        else if(matrice[0][2]=='X' && matrice[1][1]=='X' && matrice[2][0]!='O')
+            matrice[2][0]='O';
+        else if(matrice[0][2]=='X' && matrice[2][0]=='X' && matrice[1][1]!='O')
+            matrice[1][1]='O';
+
+
+
+
+        //controllo verticale / ATTACCO
+        else if(matrice[0][0]=='O' && matrice[0][1]=='O' && matrice[0][2]!='X')
+            matrice[0][2]='O';
+        else if(matrice[1][0]=='O' && matrice[1][1]=='O' && matrice[1][2]!='X')
+            matrice[1][2]='O';
+        else if(matrice[2][0]=='O' && matrice[2][1]=='O' && matrice[2][2]!='X')
+            matrice[2][2]='O';
+
+        else if(matrice[0][2]=='O' && matrice[0][1]=='O' && matrice[0][0]!='X')
+            matrice[0][0]='O';
+        else if(matrice[1][2]=='O' && matrice[1][1]=='O' && matrice[1][0]!='X')
+            matrice[1][0]='O';
+        else if(matrice[2][2]=='O' && matrice[2][1]=='O' && matrice[2][0]!='X')
+            matrice[2][0]='O';
+
+        else if(matrice[0][2]=='O' && matrice[0][0]=='O' && matrice[0][1]!='X')
+            matrice[0][1]='O';
+        else if(matrice[1][2]=='O' && matrice[1][0]=='O' && matrice[1][1]!='X')
+            matrice[1][1]='O';
+        else if(matrice[2][2]=='O' && matrice[2][0]=='O' && matrice[2][1]!='X')
+            matrice[2][1]='O';
+
+        //controllo orizzontale
+        else if(matrice[0][0]=='O' && matrice[1][0]=='O' && matrice[2][0]!='X')
+            matrice[2][0]='O';
+        else if(matrice[0][1]=='O' && matrice[1][1]=='O' && matrice[2][1]!='X')
+            matrice[2][1]='O';
+        else if(matrice[0][2]=='O' && matrice[1][2]=='O' && matrice[2][2]!='X')
+            matrice[2][2]='O';
+
+        else if(matrice[2][0]=='O' && matrice[1][0]=='O' && matrice[0][0]!='X')
+            matrice[0][0]='O';
+        else if(matrice[2][1]=='O' && matrice[1][1]=='O' && matrice[0][1]!='X')
+            matrice[0][1]='O';
+        else if(matrice[2][2]=='O' && matrice[1][2]=='O' && matrice[0][2]!='X')
+            matrice[0][2]='O';
+
+        else if(matrice[2][0]=='O' && matrice[0][0]=='O' && matrice[1][0]!='X')
+            matrice[1][0]='O';
+        else if(matrice[2][1]=='O' && matrice[0][1]=='O' && matrice[1][1]!='X')
+            matrice[1][1]='O';
+        else if(matrice[2][2]=='O' && matrice[0][2]=='O' && matrice[1][2]!='X')
+            matrice[1][2]='O';
+
+        //controllo obliquo
+        else if(matrice[0][0]=='O' && matrice[1][1]=='O' && matrice[2][2]!='X')
+            matrice[2][2]='O';
+        else if(matrice[2][2]=='O' && matrice[1][1]=='O' && matrice[0][0]!='X')
+            matrice[0][0]='O';
+        else if(matrice[2][2]=='O' && matrice[0][0]=='O' && matrice[1][1]!='X')
+            matrice[1][1]='O';
+
+        else if(matrice[2][0]=='O' && matrice[1][1]=='O' && matrice[0][2]!='X')
+            matrice[0][2]='O';
+        else if(matrice[0][2]=='O' && matrice[1][1]=='O' && matrice[2][0]!='X')
+            matrice[2][0]='O';
+        else if(matrice[0][2]=='O' && matrice[2][0]=='O' && matrice[1][1]!='X')
+            matrice[1][1]='O';
+        else{
+           int a=rand()%9;
+            for(int i=0; i<3; i++){
+                for(int j=0; j<3; j++){
+                    if(a==0){
+                        if(matrice[i][j]=='X'||matrice[i][j]=='O'){
+                            turno2();
+                        }
+                        else{
+                            matrice[i][j]='O';
+                            system("cls");
+                            turno=true;
+                            stampa();
+                        }
+                    }
+                    else
+                        a--;
                 }
             }
-            else
-                a--;
         }
+        system("cls");
+        turno=true;
+        stampa();
     }
 }
 int matrice1::controllo(){
