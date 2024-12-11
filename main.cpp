@@ -36,6 +36,7 @@ public:
     void vittoria();
     void sconfitta();
     void scegliMod();
+    void stampaMenu();
 };
 void matrice1::intro(){
 cout<<endl<<endl<<endl<<endl<<endl<<endl;
@@ -148,6 +149,7 @@ printf("%s",ROSSO);
     inizializza();
 }
 void matrice1::stampa(){
+    system("cls");
     printf("%s",ROSSO);
     cout<<"                                             _______  ______    ___   _______ "<<endl;
     printf("%s",ROSA);
@@ -222,7 +224,16 @@ void matrice1::turno1(){
     cout<<endl;
     cout<<"Dimmi una posizione:";
     int a=0;
-    cin>>a;
+    char b;
+    cin>>b;
+    if(b == 48 || b == 49 || b == 50 || b == 51 || b == 52 || b == 53 || b == 54 || b == 55 || b == 56){
+        a=b-48;
+    }
+    else{
+        cout<<"Errore!!"<<endl;
+        stampa();
+    }
+
     cout<<endl;
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
@@ -463,7 +474,7 @@ void matrice1::vittoria(){
     cout<<"                                                        VITTORIA"<<endl;
     printf("%s",RESET);
     Sleep(300);
-    cout<<"                                         Premi Esc per uscire, INVIO per continuare"<<endl;
+    cout<<"                                  Premi Esc per uscire, INVIO per continuare, + per menu"<<endl;
     char ch;
     ch = _getch(); // Legge il carattere premuto
     if(ch==27){
@@ -479,6 +490,64 @@ void matrice1::vittoria(){
         Sleep(600);
         inizializza();
     }
+    else if(ch==43){
+        cout << "Vai al menu. Continua...\n";
+        Sleep(600);
+        system("cls");
+        stampaMenu();
+    }
+}
+void matrice1::stampaMenu(){
+    system("cls");
+    printf("%s",VERDE);
+        cout<<"                                                         MENU'"<<endl;
+    printf("%s",BIANCO);
+        cout<<"                                                  1-Torna al Gioco"<<endl;
+        cout<<"                                                  2-Ripristina Gioco"<<endl;
+        //cout<<"                                                  3-Cambio Font Schermo Notte"<<endl;
+        //cout<<"                                                  4-Cambio Font Schermo Giorno"<<endl;
+        //cout<<"                                                  5-Stampa Risultato"<<endl;
+        cout<<"                                                  3-Istruzioni"<<endl;
+        //cout<<"                                                  7-Stampa Record"<<endl;
+        cout<<"                                                  4-Modalita'"<<endl;
+        cout<<"                                                  5-Esci"<<endl<<endl;
+        int a=0;
+        cin>>a;
+        if(a<1 || a>5){
+            cout<<"ERRORE!!!"<<endl;
+            Sleep(200);
+            stampaMenu();
+        }
+        else{
+            switch(a){
+            case 1:
+                stampa();
+
+            case 2:
+                vincite=0;
+                vAvversario=0;
+                inizializza();
+            case 3:
+                system("cls");
+                   printf("%s",AZZURRO);
+                cout<<"                                                     ISTRUZIONI"<<endl<<endl;
+                printf("%s",BIANCO);
+                cout<<"Il gioco e' tris, devi inizialmente sceglire una modalita' tra semplice e difficile, dopodiche' dovrano affrontare il tuo avversario cercando di fare tris"<<endl;
+                cout<<"Il tris puo' essere fatto orizzontalmente, verticalmente o in diagonale"<<endl<<endl;
+                system("pause");
+                system("cls");
+                stampaMenu();
+            case 4:
+                scegliMod();
+            case 5:
+                cout<<"SALVATAGGIO IN CORSO...."<<endl;
+                Sleep(300);
+                cout<<endl<<"USCITA..."<<endl;
+                abort();
+            }
+
+        }
+
 }
 void matrice1::sconfitta(){
     //turno=NULL;
@@ -488,7 +557,7 @@ void matrice1::sconfitta(){
     cout<<"                                                     SCONFITTA"<<endl;
     printf("%s",RESET);
     Sleep(300);
-    cout<<"                                         Premi Esc per uscire, INVIO per continuare"<<endl;
+    cout<<"                                    Premi Esc per uscire, INVIO per continuare, + per menu"<<endl;
     char ch;
     ch = _getch(); // Legge il carattere premuto
     if(ch==27){
@@ -503,6 +572,12 @@ void matrice1::sconfitta(){
         cout<<"Creazione nuova partita..."<<endl;
         Sleep(600);
         inizializza();
+    }
+    else if(ch==43){
+        cout << "Vai al menu. Continua...\n";
+        Sleep(600);
+        system("cls");
+        stampaMenu();
     }
 }
 int main()
