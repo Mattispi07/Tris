@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1733558122 source:c:\users\matti\onedrive\desktop\tris\main.cpp
+	<iostream>
+	<cstdio>
+	<string>
+	<fstream>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	<vector>
+	<conio.h>
+
+1734162671 source:c:\users\matti\desktop\tris\main.cpp
+	<iostream>
+	<cstdio>
+	<string>
+	<fstream>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	<vector>
+	<conio.h>
+
